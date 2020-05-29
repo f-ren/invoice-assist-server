@@ -15,7 +15,7 @@ const ProductsService = {
     return db.insert(newProduct).into('products').returning('*');
   },
   deleteProduct(db, id) {
-    return db.from('product').select('*').where({ id }).delete();
+    return db.from('products').select('*').where({ id }).delete();
   },
 };
 
