@@ -13,7 +13,7 @@ const userRouter = require('./user/user-router');
 
 const app = express();
 
-const morganOption = NODE_ENV === 'production';
+const morganOption = process.env.NODE_ENV === 'production' ? 'tiny' : 'common';
 
 app.use(morgan(morganOption));
 app.use(helmet());
