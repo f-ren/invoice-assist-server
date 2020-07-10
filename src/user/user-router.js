@@ -9,10 +9,8 @@ const jsonParser = express.json();
 userRouter
   .route('/')
   .all(requireAuth)
-  .get((req, res, next) => {
-    UserService.getUserById(req.app.get('db'), req.user.id)
-      .then((user) => res.json(user))
-      .catch(next);
+  .get((req, res) => {
+    res.json(req.user);
   })
   .patch(requireAuth, jsonParser, (req, res, next) => {
     const { first_name, last_name, company_name, email } = req.body;

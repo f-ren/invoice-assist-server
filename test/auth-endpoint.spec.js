@@ -2,11 +2,12 @@ const knex = require('knex');
 const jwt = require('jsonwebtoken');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
+const supertest = require('supertest');
 
 describe('Auth Endpoints', function () {
   let db;
 
-  const { testUsers } = helpers.makeFixtures();
+  const testUsers = helpers.makeUsersArray();
   const testUser = testUsers[0];
 
   before('make knex instance', () => {
@@ -41,7 +42,7 @@ describe('Auth Endpoints', function () {
           .post('/auth/login')
           .send(loginAttemptBody)
           .expect(400, {
-            error: `Missing '${field}' in request body`,
+            error: `Missing ${field} in request body`,
           });
       });
     });
@@ -51,7 +52,7 @@ describe('Auth Endpoints', function () {
       return supertest(app)
         .post('/auth/login')
         .send(userInvalidUser)
-        .expect(400, { error: `Incorrect user_name or password` });
+        .expect(400, { error: `Incorrect username or password` });
     });
 
     it(`responds 400 'invalid user_name or password' when bad password`, () => {
@@ -62,7 +63,7 @@ describe('Auth Endpoints', function () {
       return supertest(app)
         .post('/auth/login')
         .send(userInvalidPass)
-        .expect(400, { error: `Incorrect user_name or password` });
+        .expect(400, { error: `Incorrect username or password` });
     });
 
     it(`responds 200 and JWT auth token using secret when valid credentials`, () => {

@@ -55,7 +55,7 @@ invoiceRouter
     for (const [key, value] of Object.entries(updateInvoice))
       if (value === null)
         return res.status(400).json({
-          error: `Missing '${key}' in request body`,
+          error: `Missing ${key} in request body`,
         });
 
     updateInvoice.user_id = req.user.id;
